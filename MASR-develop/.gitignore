@@ -1,0 +1,17 @@
+.idea/
+__pycache__/
+models/
+dataset/*
+!dataset/test.wav
+!dataset/test_long.wav
+log/
+lm/
+tools/generate_audio/*
+tools/generate_audio/generate_audio.py
+tools/generate_audio/generate_corpus.py
+build/
+dist/
+masr.egg-info/
+dataset_LibriSpeech/
+dataset_aishell/
+test*.py
