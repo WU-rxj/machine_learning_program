@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricky's Todo APP</title>
+</head>
+<body>
+    <div class="todo-app">
+        <div class="title">Ricky's Todo APP</div>
+        <div class="todo-form">
+            <input type="text" class="todo-input" placeholder="输入待办事项">
+            <div class="todo-button">添加</div>
+        </div>
+        <div id="todo-list">
+            <div class="item completed">
+                <div>
+                    <input type="checkbox" />
+                    <span class="name">吃饭</span>
+                </div>
+                <div class="del">del</div> 
+            </div>
+            <div class="item">
+                <div>
+                    <input type="checkbox" />
+                    <span class="name">睡觉</span>
+                </div>
+                <div class="del">del</div> 
+            </div>
+        </div>
+    </div>
+    <style>
+        body {
+            background: linear-gradient(to right, #138df1 0%, #fd02ec 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .del {
+            width: 20px;
+            color: #f70505;
+            text-align: center;
+            cursor: pointer;
+        }
+        .completed {
+            text-decoration: line-through;
+            opacity: 0.5;
+            color: #999;
+        }
+        .todo-app {
+            width: 90%;
+            max-width: 600px;
+            height: 70vh;
+            border-radius: 10px;
+            background-color: #fff;
+            padding: 30px 0;  
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin-top: 5vh;
+            overflow: auto;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .todo-form {
+            display: flex; /* 添加flex布局 */
+            width: 80%;
+            margin: 20px auto;
+        }
+        
+        .todo-input {
+            flex: 1; /* 让输入框占据剩余空间 */
+            height: 50px;
+            padding: 0 15px;
+            border: 1px solid #ccc;
+            outline: none;
+            border-radius: 20px 0 0 20px;
+            font-size: 16px;
+        }
+        
+        .todo-button {
+            width: 100px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 52px;
+            background: linear-gradient(to right, #138df1 0%, #fd02ec 100%);
+            color: #fff;
+            text-align: center;
+            border-radius: 0 20px 20px 0;
+            font-size: 16px;
+        }
+        
+        .item {
+            display: flex;
+            box-sizing: border-box;
+            width: 80%;
+            height: 50px;
+            align-items: center;
+            justify-content: space-between;
+            margin: 8px auto;
+            padding: 16px;
+            border-radius: 20px;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .item:hover {
+            transform: translateY(-2px);
+            box-shadow: rgba(149, 157, 165, 0.3) 0px 10px 24px;
+        }
+        
+        .name {
+            margin-left: 10px;
+            color: #333;
+        }
+        
+        input[type="checkbox"]:checked + .name {
+            text-decoration: line-through;
+            color: #999;
+        }
+    </style>
+</body>
+</html>
