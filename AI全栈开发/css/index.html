@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+       console.log('hello world')
+        let a = 1
+        let b = 2
+        let c = a + b
+        console.log(c)
+        let obj={
+            name:'ricky',
+            age:18,
+            bool:false
+        }
+        console.log(obj)
+        obj.age=19
+        obj.ji='good'
+        console.log(obj)
+        let arr=[1,2,3,4,5]
+        console.log(arr)
+        console.log(arr.length)
+        arr.push(6)
+        arr.pop()
+        arr.shift()
+        arr.unshift(0)
+        console.log(arr)
+        // 主要数组方法说明：
+        // 1. push() - 末尾添加元素
+        // 2. pop()  - 移除最后一个元素
+        // 3. shift() - 移除第一个元素
+        // 4. unshift() - 开头添加元素
+        let num=3
+        let str='3'
+        console.log(num==str) // true
+        console.log(num===str) // false
+        console.log(typeof num) // number
+        console.log(typeof str) // string
+        console.log(num+str) // '33
+
+        //逻辑运算符
+        console.log(a && b) // 2
+        console.log(a || b) // 1
+        console.log(!a) // false
+        console.log(!b) // false
+        if (b>a){
+            console.log('b>a')
+        }
+        else{
+            console.log('b<a')
+        }
+        // 三元运算符
+        let d=a>b?a:b
+        console.log(d)
+        // 循环
+        for (let i=0;i<10;i++){
+            console.log(i)
+        }
+        // 函数
+        function add(a,b){
+            return a+b
+        }
+        console.log(add(1,2))
+    </script>
+</body>
+</html>
