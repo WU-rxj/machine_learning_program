@@ -1,0 +1,20 @@
+{
+  "name": "vscode_program",
+  "version": "1.0.0",
+  "description": "\"# machine_learning_program\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WU-rxj/machine_learning_program.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WU-rxj/machine_learning_program/issues"
+  },
+  "homepage": "https://github.com/WU-rxj/machine_learning_program#readme"
+}
