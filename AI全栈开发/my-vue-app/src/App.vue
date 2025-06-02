@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-
 const value = ref('')
 const list = ref([
   { value: '吃饭', isCompleted: true },
