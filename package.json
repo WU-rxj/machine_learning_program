@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/WU-rxj/machine_learning_program/issues"
   },
-  "homepage": "https://github.com/WU-rxj/machine_learning_program#readme"
+  "homepage": "https://github.com/WU-rxj/machine_learning_program#readme",
+  "dependencies": {
+    "axios": "^1.9.0"
+  }
 }

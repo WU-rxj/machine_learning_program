@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
+
+getList()
 const value = ref('')
 const list = ref([
   { value: '吃饭', isCompleted: true },
@@ -7,17 +10,72 @@ const list = ref([
   { value: '打豆豆', isCompleted: false },
 ])
 
-function add() {
-  list.value.push({
-    value: value.value,
-    isCompleted: false,
-  })
+// 统一使用同一个域名，将 q6zv39 改为 g6zv39
+const API_BASE = 'https://g6zv39.laf.run'
 
+async function getList() {
+  const res = await axios({
+    url: `${API_BASE}/get_list`,
+    method: 'GET',
+  });
+  list.value = res.data.list;
+}
+
+async function add() {
+  await axios({
+    url: `${API_BASE}/add-todo`,  // 统一命名风格 add_todo
+    method: 'POST',
+    data: {
+      value: value.value,
+      isCompleted: false
+    }
+  });
+  getList(); // 添加成功后刷新列表
   value.value = ''
 }
 
-function del(index) {
-  list.value.splice(index, 1)
+
+async function update(id) {
+  try {
+    const response = await axios({
+      url: 'https://g6zv39.laf.run/update_todo',
+      method: 'POST',
+      data: {
+        id,
+        completed: !list.value.find(item => item.id === id).completed
+      }
+    });
+
+    if (response.status === 200) {
+      const todo = list.value.find(item => item.id === id);
+      if (todo) {
+        todo.completed = !todo.completed;
+      }
+    }
+  } catch (error) {
+    console.error('更新失败:', error);
+    alert('更新待办事项状态失败，请重试');
+  }
+}
+
+async function del(id) {
+  try {
+    const response = await axios({
+      url: 'https://g6zv39.laf.run/del_todo',
+      method: 'POST',
+      data: {
+        id: id
+      }
+    });
+
+    if (response.status === 200) {
+      // 删除成功后重新获取列表
+      getList();
+    }
+  } catch (error) {
+    console.error('删除失败:', error);
+    alert('删除待办事项失败，请重试');
+  }
 }
 </script>
 <template>
@@ -39,7 +97,7 @@ function del(index) {
       :class="[item.isCompleted ? 'completed' : 'item']"
     >
       <div>
-        <input v-model="item.isCompleted" type="checkbox" />
+        <input @click="update(item._id)" v-model="item.isCompleted" type="checkbox" />
         <span class="name">{{ item.value }}</span>
       </div>
 
