@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import os
 from datetime import datetime
+from webdriver_manager.chrome import ChromeDriverManager
 
 # 配置参数
 EXCEL_PATH = r"d:\vscode_program\score_collection\数经班名单.xlsx"
@@ -64,7 +65,8 @@ try:
     options.add_experimental_option('useAutomationExtension', False)
     
     # 初始化Chrome浏览器
-    driver = webdriver.Chrome(options=options)
+    # 使用ChromeDriverManager自动管理ChromeDriver
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     # 执行CDP命令以避免被检测为自动化测试
     driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
         'source': '''
@@ -103,7 +105,8 @@ try:
             )
             student_id_input.clear()
             student_id_input.send_keys(student_id)
-            time.sleep(0.5)
+            print(f"成功填写学号: {student_id}")
+            time.sleep(1) # 增加等待时间
             
             # 填写姓名
             name_input = WebDriverWait(driver, 10).until(
@@ -111,7 +114,8 @@ try:
             )
             name_input.clear()
             name_input.send_keys(name)
-            time.sleep(0.5)
+            print(f"成功填写姓名: {name}")
+            time.sleep(1) # 增加等待时间
             
             # 选择"不等于"
             select_element = WebDriverWait(driver, 10).until(
@@ -119,27 +123,47 @@ try:
             )
             select = Select(select_element)
             select.select_by_visible_text("不等于")
-            time.sleep(0.5)
+            print("成功选择'不等于'")
+            time.sleep(1) # 增加等待时间
             
-            # 填写第四个字段为"1"
-            inputs = driver.find_elements(By.XPATH, "//input[@type='text']")
-            if len(inputs) >= 3:
-                fourth_field = inputs[2]  # 第三个input元素
-                fourth_field.clear()
-                fourth_field.send_keys("1")
-                time.sleep(0.5)
+            # 填写手机号旁边的字段为"1"
+            try:
+                # 尝试使用更精确的XPath定位：查找<select>元素后面的第一个<input>兄弟元素
+                third_field = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//select/following-sibling::input[1]"))
+                )
+                third_field.clear()
+                third_field.send_keys("1")
+                print("成功填写手机号旁边的字段为'1' (精确XPath)")
+                time.sleep(1) # 增加等待时间
+            except Exception as e:
+                print(f"尝试使用精确XPath定位手机号旁边的字段失败，尝试使用通用方法。错误: {str(e)}")
+                # 回退到原始方法：通过查找所有文本输入框的索引来定位
+                inputs = driver.find_elements(By.XPATH, "//input[@type='text']")
+                if len(inputs) >= 3:
+                    third_field = inputs[2]  # 第三个input元素
+                    third_field.clear()
+                    third_field.send_keys("1")
+                    print("成功使用通用方法填写手机号旁边的字段为'1'")
+                    time.sleep(1) # 增加等待时间
+                else:
+                    print("未找到足够的文本输入框来填写手机号旁边的字段。跳过当前学生。")
+                    continue # 如果找不到目标元素，跳过当前学生
             
             # 点击查询按钮
             search_button = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '查询')]"))
             )
             search_button.click()
+            print("成功点击查询按钮")
+            time.sleep(3)  # 增加等待时间，确保页面有足够时间加载
             
-            # 等待结果表格加载
-            WebDriverWait(driver, 15).until(
-                EC.presence_of_element_located((By.TAG_NAME, "table"))
+            # 等待结果表格加载并确保至少有一行数据
+            WebDriverWait(driver, 20).until( # 增加等待超时时间
+                EC.presence_of_element_located((By.XPATH, "//table//tbody//tr")) # 等待表格内部的行元素
             )
-            time.sleep(2)  # 额外等待以确保数据加载完成
+            print("成功等待结果表格及数据加载")
+            time.sleep(2)  # 额外等待以确保数据完全加载完成
             
             # 获取结果表格
             table = driver.find_element(By.TAG_NAME, "table")
